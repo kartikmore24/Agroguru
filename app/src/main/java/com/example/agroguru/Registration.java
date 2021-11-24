@@ -1,7 +1,9 @@
 package com.example.agroguru;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,11 +13,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Registration extends AppCompatActivity {
 
-    EditText name,mob,adharno,place,pin,pass;
+    EditText email, name,mob,adharno,place,pin,pass;
     Button register;
     AGdatabase mDatabaseHelper;
+    ProgressDialog progressDialog;
+
+    FirebaseAuth auth;
+    FirebaseFirestore database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +43,14 @@ public class Registration extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_registration);
 
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseFirestore.getInstance();
+
+        progressDialog = new ProgressDialog(Registration.this);
+        progressDialog.setTitle("Creating Account");
+        progressDialog.setMessage("Your account is being created");
+
+        email = (EditText) findViewById(R.id.editTextEmail);
         name = (EditText) findViewById(R.id.editText1);
         mob = (EditText) findViewById(R.id.editText2);
         adharno = (EditText) findViewById(R.id.editText3);
@@ -38,24 +64,57 @@ public class Registration extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String emailEntry = email.getText().toString();
                 String nameEntry = name.getText().toString();
                 String mobEntry = mob.getText().toString();
                 String adharnoEntry = adharno.getText().toString();
                 String placeEntry = place.getText().toString();
                 String pinEntry = pin.getText().toString();
-                String passEntry = pass.getText().toString();
+                String passwordEntry = pass.getText().toString();
 
-                if (nameEntry.length() != 0 && mobEntry.length() == 10 && adharnoEntry.length() == 12 && placeEntry.length() != 0 && pinEntry.length() == 6 && passEntry.length() != 0){
-                    AddData(nameEntry,mobEntry,adharnoEntry,placeEntry,pinEntry,passEntry);
-                    name.setText("");
-                    mob.setText("");
-                    adharno.setText("");
-                    place.setText("");
-                    pin.setText("");
-                    pass.setText("");
-                } else {
-                    Toast.makeText(Registration.this,"Plz enter valid credentials",Toast.LENGTH_SHORT).show();
+                if (emailEntry.length() != 0 && passwordEntry.length() != 0 && nameEntry.length() != 0 && mobEntry.length() != 0 && adharnoEntry.length() != 0 && placeEntry.length() != 0 && pinEntry.length() != 0) {
+                    progressDialog.show();
+                    auth.createUserWithEmailAndPassword(emailEntry, passwordEntry).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.dismiss();
+                            if (task.isSuccessful()) {
+                                Map<String, String> user = new HashMap<>();
+                                user.put("email", emailEntry);
+                                user.put("name", nameEntry);
+                                user.put("mobileNumber", mobEntry);
+                                user.put("aadharNumber", adharnoEntry);
+                                user.put("place", placeEntry);
+                                user.put("pincode", pinEntry);
+                                String id = task.getResult().getUser().getUid();
+                                database.collection("users").document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(Registration.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+
+                                        Intent i = new Intent(Registration.this, Login.class);
+                                        finish();
+                                        startActivity(i);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(Registration.this, "Failed to Register", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+
+                            }
+                            else {
+                                Toast.makeText(Registration.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
+                else {
+                    Toast.makeText(Registration.this, "Fields are empty!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -71,6 +130,7 @@ public class Registration extends AppCompatActivity {
     //==AGROPANEL
     public void backtologin(View view) {
         Intent i = new Intent(Registration.this, Login.class);
+        finish();
         startActivity(i);
     }
 }

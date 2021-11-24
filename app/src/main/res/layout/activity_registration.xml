@@ -30,13 +30,25 @@
             android:gravity="center"/>
 
         <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/round"
+            android:layout_marginTop="20dp"
+            android:drawableRight="@drawable/person_black"
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"/>
+
+        <EditText
             android:id="@+id/editText1"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/round"
             android:layout_marginTop="20dp"
             android:drawableRight="@drawable/person_black"
-            android:hint="User name"
+            android:hint="Name"
             android:inputType="textPersonName"
             android:paddingLeft="20dp"
             android:paddingRight="10dp"/>

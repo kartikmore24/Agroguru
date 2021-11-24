@@ -2,7 +2,7 @@ package com.example.agroguru;
 
 public class ViewModel {
     private String period;
-    private String crop_type;
+    private String cropType;
     private String production;
     private String region;
     private String area;
@@ -15,12 +15,12 @@ public class ViewModel {
         this.period = period;
     }
 
-    public String getCrop_type() {
-        return crop_type;
+    public String getCropType() {
+        return cropType;
     }
 
-    public void setCrop_type(String crop_type) {
-        this.crop_type = crop_type;
+    public void setCropType(String cropType) {
+        this.cropType = cropType;
     }
 
     public String getProduction() {

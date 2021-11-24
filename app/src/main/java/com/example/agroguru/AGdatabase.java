@@ -110,7 +110,7 @@ public class AGdatabase extends SQLiteOpenHelper {
             do {
                 ViewModel viewModel = new ViewModel();
                 viewModel.setPeriod(c.getString(0));
-                viewModel.setCrop_type(c.getString(1));
+                viewModel.setCropType(c.getString(1));
                 viewModel.setProduction(c.getString(2));
                 viewModel.setRegion(c.getString(3));
                 viewModel.setArea(c.getString(4));

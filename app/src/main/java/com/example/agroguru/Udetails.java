@@ -1,7 +1,9 @@
 package com.example.agroguru;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,11 +13,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Udetails extends AppCompatActivity {
 
     EditText period,crop_type,production,region,area;
     Button add;
     AGdatabase mDatabaseHelper;
+
+    ProgressDialog progressDialog;
+    FirebaseFirestore database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +37,11 @@ public class Udetails extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_udetails);
+
+        database = FirebaseFirestore.getInstance();
+        progressDialog = new ProgressDialog(Udetails.this);
+        progressDialog.setTitle("Harvest Details");
+        progressDialog.setMessage("Adding Harvest Details");
 
         period = (EditText) findViewById(R.id.editText7);
         crop_type = (EditText) findViewById(R.id.editText8);
@@ -44,17 +62,31 @@ public class Udetails extends AppCompatActivity {
                 String areaEntry = area.getText().toString();
 
                 if (periodEntry.length() != 0 && crop_typeEntry.length() != 0 && productionEntry.length() != 0 && regionEntry.length() != 0 && areaEntry.length() != 0){
-                    AddData(periodEntry,crop_typeEntry,productionEntry,regionEntry,areaEntry);
-                    period.setText("");
-                    crop_type.setText("");
-                    production.setText("");
-                    region.setText("");
-                    area.setText("");
+                    Map<String, String> harvestDetails = new HashMap<>();
+                    harvestDetails.put("period", periodEntry);
+                    harvestDetails.put("cropType", crop_typeEntry);
+                    harvestDetails.put("production", productionEntry);
+                    harvestDetails.put("region", regionEntry);
+                    harvestDetails.put("area", areaEntry);
 
-                    Intent i = new Intent(Udetails.this, Agropanel.class);
-                    startActivity(i);
+                    database.collection("harvestDetails").add(harvestDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Toast.makeText(Udetails.this, "Harvest Details Added Successfully", Toast.LENGTH_SHORT).show();
+
+                            Intent i = new Intent(Udetails.this, Agropanel.class);
+                            finish();
+                            startActivity(i);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(Udetails.this, "Failed to Add Harvest Details", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 } else {
-                    Toast.makeText(Udetails.this,"Plz enter the details",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Udetails.this,"Fields are empty!",Toast.LENGTH_SHORT).show();
                 }
             }
         });

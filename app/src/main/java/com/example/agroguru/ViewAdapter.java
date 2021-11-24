@@ -30,7 +30,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.Recyclervh> {
     public void onBindViewHolder(@NonNull Recyclervh holder, int position) {
         viewModel = mviewlist.get(position);
         holder.mPeriod.setText("Month & Year : "+ viewModel.getPeriod());
-        holder.mCrop_type.setText("Crop Type : "+ viewModel.getCrop_type());
+        holder.mCrop_type.setText("Crop Type : "+ viewModel.getCropType());
         holder.mProduction.setText("Approx Production : "+ viewModel.getProduction());
         holder.mRegion.setText("Region : "+ viewModel.getRegion());
         holder.mArea.setText("Cultivated Area : "+ viewModel.getArea());

@@ -25,75 +25,75 @@
         android:id="@+id/layoutinput2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/layoutround"
-        android:padding="20dp"
-        android:elevation="16dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="200dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="false">
+        android:layout_centerVertical="false"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/layoutround"
+        android:elevation="16dp"
+        android:orientation="vertical"
+        android:padding="20dp">
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="AUTHENTICATION"
             android:textColor="@color/black"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:gravity="center"/>
+            android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/ed1"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="User Name"
-                android:textSize="20dp"
-                android:background="@drawable/round"
-                android:layout_marginTop="20dp"
-                android:inputType="textPersonName"
-                android:paddingLeft="20dp"
-                android:paddingRight="10dp"
-                android:drawableRight="@drawable/person_black"/>
+        <EditText
+            android:id="@+id/ed1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/round"
+            android:drawableRight="@drawable/person_black"
+            android:hint="User Name"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:textSize="20dp" />
 
-            <EditText
-                android:id="@+id/ed2"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="Password"
-                android:textSize="20dp"
-                android:background="@drawable/round"
-                android:layout_marginTop="20dp"
-                android:inputType="textPassword"
-                android:paddingLeft="20dp"
-                android:paddingRight="10dp"
-                android:drawableRight="@drawable/password_key"/>
+        <EditText
+            android:id="@+id/ed2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/round"
+            android:drawableRight="@drawable/password_key"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/btnlogin"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:elevation="16dp"
             android:text="Login"
             android:textAllCaps="true"
-            android:elevation="16dp"
-            android:layout_margin="20dp"
             android:textColor="#FFFF"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
         <Button
             android:layout_width="250dp"
             android:layout_height="50dp"
-            android:onClick="reg"
             android:layout_gravity="center"
+            android:layout_margin="-10dp"
+            android:elevation="16dp"
+            android:onClick="reg"
             android:text="New user?  Register here"
             android:textAllCaps="false"
-            android:elevation="16dp"
-            android:layout_margin="-10dp"
             android:textColor="#FFFF"
-            android:textSize="15dp"/>
+            android:textSize="15dp" />
 
     </LinearLayout>
 
