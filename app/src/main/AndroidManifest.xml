@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AgroGuru">
-        <activity android:name=".Disease2"></activity>
+        <activity
+            android:name=".Videos"
+            android:exported="false" />
+        <activity android:name=".Disease2" />
         <activity android:name=".Disease1" />
         <activity android:name=".Disease0" />
         <activity android:name=".Prediction" />
