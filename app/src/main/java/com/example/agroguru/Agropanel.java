@@ -50,6 +50,10 @@ public class Agropanel extends AppCompatActivity {
         Intent i = new Intent(Agropanel.this, Schemes.class);
         startActivity(i);
     }
+    public void videos(View view) {
+        Intent i = new Intent(Agropanel.this, Videos.class);
+        startActivity(i);
+    }
     public void logout(View view) {
         auth.signOut();
         Intent intent = new Intent(Agropanel.this, Login.class);
